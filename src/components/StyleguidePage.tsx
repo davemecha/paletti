@@ -1,11 +1,11 @@
-import { StyleguideHeader } from "./StyleguideHeader";
-import { ColorPaletteSection } from "./ColorPaletteSection";
-import { SemanticColorsSection } from "./SemanticColorsSection";
+import { StyleguideHeader } from './StyleguideHeader';
+import { ColorPaletteSection } from './ColorPaletteSection';
+import { SemanticColorsSection } from './SemanticColorsSection';
 
 export function StyleguidePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-6xl mx-auto px-6 py-12 bg-pr">
+    <div className="bg-background text-foreground min-h-screen">
+      <div className="bg-pr mx-auto max-w-6xl px-6 py-12">
         <StyleguideHeader />
         <ColorPaletteSection />
         <SemanticColorsSection />

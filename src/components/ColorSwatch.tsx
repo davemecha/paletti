@@ -7,8 +7,8 @@ export function ColorSwatch({ label, bgClass }: ColorSwatchProps) {
   return (
     <div>
       <div className={`h-24 rounded-lg shadow-sm ${bgClass}`} />
-      <p className="mt-2 text-sm font-semibold font-heading">{label}</p>
-      <p className="text-xs text-foreground-muted">{bgClass}</p>
+      <p className="font-heading mt-2 text-sm font-semibold">{label}</p>
+      <p className="text-foreground-muted text-xs">{bgClass}</p>
     </div>
   );
 }

@@ -3,7 +3,7 @@ name: Paletti Styleguide MVP
 overview: Set up the design system CSS (palettes, tokens, dark/light modes) and build a styleguide page with color palette visualization, mirroring the goeoeck.dev/de/styleguide structure using componentized React + Tailwind CSS v4 -- no shadcn.
 todos:
   - id: css-design-system
-    content: "Rewrite src/index.css with full design system: fonts, OKLCH palettes (primary/secondary 50-1100), semantic color mappings for light/dark, typography tokens, spacing, base styles"
+    content: 'Rewrite src/index.css with full design system: fonts, OKLCH palettes (primary/secondary 50-1100), semantic color mappings for light/dark, typography tokens, spacing, base styles'
     status: completed
   - id: theme-provider
     content: Create ThemeProvider context (dark/light toggle, localStorage persistence, .dark class on documentElement) and ThemeToggle component with sun/moon SVG icons
@@ -36,8 +36,6 @@ graph TD
   Header --> ThemeToggle["ThemeToggle"]
 ```
 
-
-
 ## 1. Design System CSS: `[src/index.css](src/index.css)`
 
 Rewrite `src/index.css` with a clean design system inspired by `globals_tmp.css` but independent. Key elements:
@@ -45,11 +43,11 @@ Rewrite `src/index.css` with a clean design system inspired by `globals_tmp.css`
 - **Font imports**: Poppins (headings) + Nunito Sans (body) via Google Fonts
 - **Tailwind v4**: `@import "tailwindcss"` + `@custom-variant dark`
 - **OKLCH palette generation**: Same `--color-primary-base` / `--color-secondary-base` approach with step-based lightness/chroma interpolation producing shades 50-1100 for both primary and secondary
-- `**@theme inline` block**: Register all palette shades, typography tokens, spacing scale, radii, shadows as Tailwind theme values
+- `**@theme inline` block\*\*: Register all palette shades, typography tokens, spacing scale, radii, shadows as Tailwind theme values
 - **Light mode** (`:root` / `.light`): Map semantic vars (`--background`, `--foreground`, `--primary`, `--secondary`, `--accent`, etc.) to appropriate palette shades
 - **Dark mode** (`.dark`): Invert the semantic mappings (lighter shades for primary/secondary, dark backgrounds)
 - **Base styles**: body, headings (h1-h4), paragraph, caption, blockquote, links, card utility class
-- **Drop all shadcn-specific variables** (sidebar-*, chart-*, popover-*, etc.) -- only keep semantic colors relevant to this design system
+- **Drop all shadcn-specific variables** (sidebar-_, chart-_, popover-\*, etc.) -- only keep semantic colors relevant to this design system
 
 Reference values from `[globals_tmp.css](globals_tmp.css)` lines 8-17 (palette base), lines 242-340 (light/dark semantic mappings).
 
@@ -90,7 +88,7 @@ All new components go in `src/components/`.
 
 - Section titled "Color Palette"
 - Two subsections: "Primary Color Scale" and "Secondary Color Scale"
-- Each uses `ColorScale` with the corresponding `bg-primary-`* / `bg-secondary-`* Tailwind classes
+- Each uses `ColorScale` with the corresponding `bg-primary-`_ / `bg-secondary-`_ Tailwind classes
 - Subtitle "Shades from 50 (lightest) to 1100 (darkest)" like the reference site
 
 ### `ColorSwatch.tsx` (reusable)
@@ -132,6 +130,5 @@ src/
 - **No shadcn** -- all styling is Tailwind utility classes + CSS custom properties
 - **Tabler Icons via CDN** -- webfont loaded in `index.html` (`https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css`), used via `<i>` tags with class names like `ti ti-sun`, `ti ti-moon`
 - **OKLCH relative color syntax** -- same approach as `globals_tmp.css` for palette generation; this is a CSS-native feature supported by modern browsers
-- `**.dark` class strategy** -- Tailwind v4's `@custom-variant dark` with class toggle, matching the reference site's approach
+- `**.dark` class strategy\*\* -- Tailwind v4's `@custom-variant dark` with class toggle, matching the reference site's approach
 - **Semantic colors visible in both modes** -- the semantic color sections force their own light/dark context so both are always visible side-by-side, just like goeoeck.dev
-
