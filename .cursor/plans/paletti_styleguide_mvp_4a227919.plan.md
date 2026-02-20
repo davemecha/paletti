@@ -4,19 +4,19 @@ overview: Set up the design system CSS (palettes, tokens, dark/light modes) and 
 todos:
   - id: css-design-system
     content: "Rewrite src/index.css with full design system: fonts, OKLCH palettes (primary/secondary 50-1100), semantic color mappings for light/dark, typography tokens, spacing, base styles"
-    status: pending
+    status: completed
   - id: theme-provider
     content: Create ThemeProvider context (dark/light toggle, localStorage persistence, .dark class on documentElement) and ThemeToggle component with sun/moon SVG icons
-    status: pending
+    status: completed
   - id: color-scale-component
     content: Create reusable ColorScale and ColorSwatch components for rendering palette shades and semantic color blocks
-    status: pending
+    status: completed
   - id: palette-sections
     content: Create ColorPaletteSection (primary + secondary scales) and SemanticColorsSection (light/dark semantic colors shown side-by-side)
-    status: pending
+    status: completed
   - id: page-assembly
     content: Create StyleguideHeader, StyleguidePage, and wire everything together in App.tsx
-    status: pending
+    status: completed
 isProject: false
 ---
 
