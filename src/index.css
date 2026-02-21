@@ -3,12 +3,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --color-primary-base: oklch(34.14% 0.1131 311.39);
+  --color-primary-base: #4b2262;
   --primary-base-step: 8;
   --step-l-primary: 0.0609;
   --step-c-primary: 0;
 
-  --color-secondary-base: oklch(0.3371 0.0878 127.74);
+  --color-secondary-base: #2a3f00;
   --secondary-base-step: 10;
   --step-l-secondary: 0.0734;
   --step-c-secondary: -0.011;
