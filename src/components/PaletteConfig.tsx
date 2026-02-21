@@ -86,18 +86,33 @@ export function PaletteConfig({ label, cssPrefix }: PaletteConfigProps) {
 
       {/* Base step */}
       <div className="mb-5">
-        <span className="text-foreground-muted mb-1.5 block text-xs font-medium">Base Step</span>
-        <select
+        <span className="text-foreground-muted mb-1.5 block text-xs font-medium">
+          Base Step &mdash; {SHADE_LABELS[baseStep - 1]}
+        </span>
+        <input
+          type="range"
+          min={1}
+          max={SHADE_LABELS.length}
+          step={1}
           value={baseStep}
-          onChange={(e) => handleBaseStep(Number(e.target.value))}
-          className="border-border bg-background w-full rounded border px-3 py-1.5 text-sm"
-        >
-          {SHADE_LABELS.map((shade, i) => (
-            <option key={shade} value={i + 1}>
-              {shade} (step {i + 1})
-            </option>
-          ))}
-        </select>
+          onChange={(e) => handleBaseStep(e.target.valueAsNumber)}
+          className="w-full"
+        />
+        <div className="relative mt-1 h-4">
+          {SHADE_LABELS.map((s, i) => {
+            const frac = i / (SHADE_LABELS.length - 1);
+            const thumbOffset = 8;
+            return (
+              <span
+                key={s}
+                className="text-foreground-muted absolute -translate-x-1/2 text-[10px] leading-none"
+                style={{ left: `calc(${frac * 100}% + ${(1 - 2 * frac) * thumbOffset}px)` }}
+              >
+                {s}
+              </span>
+            );
+          })}
+        </div>
       </div>
 
       {/* Step L (lightness) */}
