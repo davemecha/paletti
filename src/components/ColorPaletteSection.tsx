@@ -1,4 +1,17 @@
+import { useEffect, useState } from 'react';
 import { ColorScale, type Shade } from './ColorScale';
+
+function getCssVar(name: string): string {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function readBaseSteps(): { primary: number; secondary: number; accent: number } {
+  return {
+    primary: Number(getCssVar('--primary-base-step')),
+    secondary: Number(getCssVar('--secondary-base-step')),
+    accent: Number(getCssVar('--accent-base-step')),
+  };
+}
 
 const primaryShades: Shade[] = [
   { label: '50', bgClass: 'bg-primary-50' },
@@ -46,6 +59,14 @@ const accentShades: Shade[] = [
 ];
 
 export function ColorPaletteSection() {
+  const [steps, setSteps] = useState(readBaseSteps);
+
+  useEffect(() => {
+    const handler = () => setSteps(readBaseSteps());
+    window.addEventListener('palette-step-change', handler);
+    return () => window.removeEventListener('palette-step-change', handler);
+  }, []);
+
   return (
     <section className="mb-16">
       <h2 className="mb-8">Color Palette</h2>
@@ -53,16 +74,19 @@ export function ColorPaletteSection() {
         name="Primary Color Scale"
         subtitle="Shades from 50 (lightest) to 1100 (darkest)"
         shades={primaryShades}
+        highlightIndex={steps.primary - 1}
       />
       <ColorScale
         name="Secondary Color Scale"
         subtitle="Shades from 50 (lightest) to 1100 (darkest)"
         shades={secondaryShades}
+        highlightIndex={steps.secondary - 1}
       />
       <ColorScale
         name="Accent Color Scale"
         subtitle="Shades from 50 (lightest) to 1100 (darkest)"
         shades={accentShades}
+        highlightIndex={steps.accent - 1}
       />
     </section>
   );

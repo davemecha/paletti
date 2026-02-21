@@ -49,6 +49,7 @@ export function PaletteConfig({ label, cssPrefix, isExpanded, onToggle }: Palett
     (step: number) => {
       setBaseStep(step);
       setCssVar(`--${cssPrefix}-base-step`, String(step));
+      window.dispatchEvent(new Event('palette-step-change'));
     },
     [cssPrefix],
   );
