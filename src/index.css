@@ -32,6 +32,26 @@
     from var(--color-accent-base) calc(l - var(--step-l-accent) * (12 - var(--accent-base-step)))
       calc(c + var(--step-c-accent) * (12 - var(--accent-base-step))) h
   );
+
+  /* Light semantic defaults (JS-overridable via setProperty) */
+  --light-background: var(--color-gray-100);
+  --light-background-subtle: var(--color-gray-200);
+  --light-foreground: var(--color-gray-900);
+  --light-foreground-muted: var(--color-gray-800);
+  --light-primary: var(--color-primary-700);
+  --light-secondary: var(--color-secondary-900);
+  --light-accent: var(--color-accent-600);
+  --light-border: var(--color-gray-400);
+
+  /* Dark semantic defaults (JS-overridable via setProperty) */
+  --dark-background: var(--color-gray-950);
+  --dark-background-subtle: var(--color-gray-900);
+  --dark-foreground: var(--color-gray-50);
+  --dark-foreground-muted: var(--color-gray-200);
+  --dark-primary: var(--color-primary-200);
+  --dark-secondary: var(--color-secondary-400);
+  --dark-accent: var(--color-accent-200);
+  --dark-border: var(--color-gray-500);
 }
 
 @theme inline {
@@ -165,25 +185,25 @@
 @layer base {
   .light,
   :root {
-    --background: var(--color-gray-100);
-    --background-subtle: var(--color-gray-200);
-    --foreground: var(--color-gray-900);
-    --foreground-muted: var(--color-gray-800);
-    --primary: var(--color-primary-700);
-    --secondary: var(--color-secondary-900);
-    --accent: var(--color-accent-600);
-    --border: var(--color-gray-400);
+    --background: var(--light-background);
+    --background-subtle: var(--light-background-subtle);
+    --foreground: var(--light-foreground);
+    --foreground-muted: var(--light-foreground-muted);
+    --primary: var(--light-primary);
+    --secondary: var(--light-secondary);
+    --accent: var(--light-accent);
+    --border: var(--light-border);
   }
 
   .dark {
-    --background: var(--color-gray-950);
-    --background-subtle: var(--color-gray-900);
-    --foreground: var(--color-gray-50);
-    --foreground-muted: var(--color-gray-200);
-    --primary: var(--color-primary-200);
-    --secondary: var(--color-secondary-400);
-    --accent: var(--color-accent-200);
-    --border: var(--color-gray-500);
+    --background: var(--dark-background);
+    --background-subtle: var(--dark-background-subtle);
+    --foreground: var(--dark-foreground);
+    --foreground-muted: var(--dark-foreground-muted);
+    --primary: var(--dark-primary);
+    --secondary: var(--dark-secondary);
+    --accent: var(--dark-accent);
+    --border: var(--dark-border);
   }
 
   /* ---- Base element styles ---- */

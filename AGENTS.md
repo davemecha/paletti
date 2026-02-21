@@ -62,3 +62,4 @@ When updating, add or edit entries in the [Learnings](#learnings) section at the
 
 - **2026-02-20**: Sandbox restrictions block `git init` — use `required_permissions: ["all"]` for git operations.
 - **2026-02-20**: `bun install` with major version bumps can stall under network sandbox — rerun with full permissions when it hangs.
+- **2026-02-21**: Tailwind v4 tree-shakes CSS custom properties not referenced in CSS. Use static utility class name strings in source to trigger generation; Tailwind emits both the utility class and the CSS custom property for default palette colors (e.g., gray). For `@theme inline` palette shades derived via `oklch(from var(...))`.
