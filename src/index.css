@@ -13,6 +13,11 @@
   --step-l-secondary: 0.0734;
   --step-c-secondary: -0.011;
 
+  --color-accent-base: #b35c00;
+  --accent-base-step: 7;
+  --step-l-accent: 0.065;
+  --step-c-accent: 0;
+
   /* 1100 shades (outside @theme to avoid Tailwind v4 dropping them).
      Offset from base = 12 - base-step. */
   --color-primary-1100: oklch(
@@ -22,6 +27,10 @@
   --color-secondary-1100: oklch(
     from var(--color-secondary-base) calc(l - var(--step-l-secondary) * (12 - var(--secondary-base-step)))
       calc(c + var(--step-c-secondary) * (12 - var(--secondary-base-step))) h
+  );
+  --color-accent-1100: oklch(
+    from var(--color-accent-base) calc(l - var(--step-l-accent) * (12 - var(--accent-base-step)))
+      calc(c + var(--step-c-accent) * (12 - var(--accent-base-step))) h
   );
 }
 
@@ -98,6 +107,42 @@
   --color-secondary-1000: oklch(
     from var(--color-secondary-900) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
+  /* ---- Accent Palette (50–1100) ----
+     50 derived from base using base-step offset. All others chain from 50. */
+  --color-accent-50: oklch(
+    from var(--color-accent-base) calc(l + var(--step-l-accent) * (var(--accent-base-step) - 1))
+      calc(c - var(--step-c-accent) * (var(--accent-base-step) - 1)) h
+  );
+  --color-accent-100: oklch(
+    from var(--color-accent-50) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-200: oklch(
+    from var(--color-accent-100) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-300: oklch(
+    from var(--color-accent-200) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-400: oklch(
+    from var(--color-accent-300) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-500: oklch(
+    from var(--color-accent-400) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-600: oklch(
+    from var(--color-accent-500) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-700: oklch(
+    from var(--color-accent-600) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-800: oklch(
+    from var(--color-accent-700) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-900: oklch(
+    from var(--color-accent-800) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
+  --color-accent-1000: oklch(
+    from var(--color-accent-900) calc(l - var(--step-l-accent)) calc(c + var(--step-c-accent)) h
+  );
   /* ---- Semantic Colors ---- */
   --color-background: var(--background);
   --color-background-subtle: var(--background-subtle);
@@ -126,7 +171,7 @@
     --foreground-muted: var(--color-gray-800);
     --primary: var(--color-primary-700);
     --secondary: var(--color-secondary-900);
-    --accent: var(--color-secondary-600);
+    --accent: var(--color-accent-600);
     --border: var(--color-gray-400);
   }
 
@@ -137,7 +182,7 @@
     --foreground-muted: var(--color-gray-200);
     --primary: var(--color-primary-200);
     --secondary: var(--color-secondary-400);
-    --accent: var(--color-secondary-200);
+    --accent: var(--color-accent-200);
     --border: var(--color-gray-500);
   }
 
@@ -193,5 +238,8 @@
   }
   .bg-secondary-1100 {
     background-color: var(--color-secondary-1100);
+  }
+  .bg-accent-1100 {
+    background-color: var(--color-accent-1100);
   }
 }

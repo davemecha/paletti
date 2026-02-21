@@ -5,7 +5,7 @@ const SHADE_LABELS = ['50', '100', '200', '300', '400', '500', '600', '700', '80
 
 interface PaletteConfigProps {
   label: string;
-  cssPrefix: 'primary' | 'secondary';
+  cssPrefix: 'primary' | 'secondary' | 'accent';
   isExpanded: boolean;
   onToggle: () => void;
 }
