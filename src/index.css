@@ -4,89 +4,99 @@
 
 :root {
   --color-primary-base: oklch(34.14% 0.1131 311.39);
+  --primary-base-step: 8;
   --step-l-primary: 0.0609;
   --step-c-primary: 0;
 
   --color-secondary-base: oklch(0.3371 0.0878 127.74);
+  --secondary-base-step: 10;
   --step-l-secondary: 0.0734;
   --step-c-secondary: -0.011;
 
-  /* 1100 shades defined here (outside @theme) to avoid Tailwind v4 dropping them */
+  /* 1100 shades (outside @theme to avoid Tailwind v4 dropping them).
+     Offset from base = 12 - base-step. */
   --color-primary-1100: oklch(
-    from var(--color-primary-base) calc(l - var(--step-l-primary) * 4) calc(c + var(--step-c-primary) * 4) h
+    from var(--color-primary-base) calc(l - var(--step-l-primary) * (12 - var(--primary-base-step)))
+      calc(c + var(--step-c-primary) * (12 - var(--primary-base-step))) h
   );
   --color-secondary-1100: oklch(
-    from var(--color-secondary-base) calc(l - var(--step-l-secondary) * 2) calc(c + var(--step-c-secondary) * 2) h
+    from var(--color-secondary-base) calc(l - var(--step-l-secondary) * (12 - var(--secondary-base-step)))
+      calc(c + var(--step-c-secondary) * (12 - var(--secondary-base-step))) h
   );
 }
 
 @theme inline {
   /* ---- Primary Palette (50–1100) ----
-     Each shade computed directly from base to avoid deep var() chains.
-     700 = base color. Lighter shades go up, darker go down. */
+     50 derived from base using base-step offset. All others chain from 50. */
   --color-primary-50: oklch(
-    from var(--color-primary-base) calc(l + var(--step-l-primary) * 7) calc(c - var(--step-c-primary) * 7) h
+    from var(--color-primary-base) calc(l + var(--step-l-primary) * (var(--primary-base-step) - 1))
+      calc(c - var(--step-c-primary) * (var(--primary-base-step) - 1)) h
   );
   --color-primary-100: oklch(
-    from var(--color-primary-base) calc(l + var(--step-l-primary) * 6) calc(c - var(--step-c-primary) * 6) h
+    from var(--color-primary-50) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
   --color-primary-200: oklch(
-    from var(--color-primary-base) calc(l + var(--step-l-primary) * 5) calc(c - var(--step-c-primary) * 5) h
+    from var(--color-primary-100) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
   --color-primary-300: oklch(
-    from var(--color-primary-base) calc(l + var(--step-l-primary) * 4) calc(c - var(--step-c-primary) * 4) h
+    from var(--color-primary-200) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
   --color-primary-400: oklch(
-    from var(--color-primary-base) calc(l + var(--step-l-primary) * 3) calc(c - var(--step-c-primary) * 3) h
+    from var(--color-primary-300) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
   --color-primary-500: oklch(
-    from var(--color-primary-base) calc(l + var(--step-l-primary) * 2) calc(c - var(--step-c-primary) * 2) h
+    from var(--color-primary-400) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
   --color-primary-600: oklch(
-    from var(--color-primary-base) calc(l + var(--step-l-primary) * 1) calc(c - var(--step-c-primary) * 1) h
+    from var(--color-primary-500) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
-  --color-primary-700: oklch(from var(--color-primary-base) l c h);
+  --color-primary-700: oklch(
+    from var(--color-primary-600) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
+  );
   --color-primary-800: oklch(
-    from var(--color-primary-base) calc(l - var(--step-l-primary) * 1) calc(c + var(--step-c-primary) * 1) h
+    from var(--color-primary-700) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
   --color-primary-900: oklch(
-    from var(--color-primary-base) calc(l - var(--step-l-primary) * 2) calc(c + var(--step-c-primary) * 2) h
+    from var(--color-primary-800) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
   --color-primary-1000: oklch(
-    from var(--color-primary-base) calc(l - var(--step-l-primary) * 3) calc(c + var(--step-c-primary) * 3) h
+    from var(--color-primary-900) calc(l - var(--step-l-primary)) calc(c + var(--step-c-primary)) h
   );
   /* ---- Secondary Palette (50–1100) ----
-     900 = base color. */
+     50 derived from base using base-step offset. All others chain from 50. */
   --color-secondary-50: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 9) calc(c - var(--step-c-secondary) * 9) h
+    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * (var(--secondary-base-step) - 1))
+      calc(c - var(--step-c-secondary) * (var(--secondary-base-step) - 1)) h
   );
   --color-secondary-100: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 8) calc(c - var(--step-c-secondary) * 8) h
+    from var(--color-secondary-50) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
   --color-secondary-200: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 7) calc(c - var(--step-c-secondary) * 7) h
+    from var(--color-secondary-100) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
   --color-secondary-300: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 6) calc(c - var(--step-c-secondary) * 6) h
+    from var(--color-secondary-200) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
   --color-secondary-400: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 5) calc(c - var(--step-c-secondary) * 5) h
+    from var(--color-secondary-300) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
   --color-secondary-500: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 4) calc(c - var(--step-c-secondary) * 4) h
+    from var(--color-secondary-400) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
   --color-secondary-600: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 3) calc(c - var(--step-c-secondary) * 3) h
+    from var(--color-secondary-500) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
   --color-secondary-700: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 2) calc(c - var(--step-c-secondary) * 2) h
+    from var(--color-secondary-600) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
   --color-secondary-800: oklch(
-    from var(--color-secondary-base) calc(l + var(--step-l-secondary) * 1) calc(c - var(--step-c-secondary) * 1) h
+    from var(--color-secondary-700) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
-  --color-secondary-900: oklch(from var(--color-secondary-base) l c h);
+  --color-secondary-900: oklch(
+    from var(--color-secondary-800) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
+  );
   --color-secondary-1000: oklch(
-    from var(--color-secondary-base) calc(l - var(--step-l-secondary) * 1) calc(c + var(--step-c-secondary) * 1) h
+    from var(--color-secondary-900) calc(l - var(--step-l-secondary)) calc(c + var(--step-c-secondary)) h
   );
   /* ---- Semantic Colors ---- */
   --color-background: var(--background);
