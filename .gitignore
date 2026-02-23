@@ -2,3 +2,11 @@ node_modules
 dist
 .vite
 *.local
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+coverage
+.idea
+*.tsbuildinfo
