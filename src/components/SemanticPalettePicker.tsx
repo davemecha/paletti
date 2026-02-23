@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { cn } from '../lib/cn';
 
 const PALETTES = [
   {
@@ -79,13 +80,27 @@ function toVarRef(bgClass: string): string {
   return `var(--color-${bgClass.slice(3)})`;
 }
 
+type SelectionKind = 'current' | 'other' | false;
+
+function getSelection(value: string, currentValue: string, otherSelected: ReadonlySet<string>): SelectionKind {
+  if (currentValue === value) return 'current';
+  if (otherSelected.has(value)) return 'other';
+  return false;
+}
+
 interface SemanticPalettePickerProps {
   currentValue: string;
+  otherSelectedValues: ReadonlySet<string>;
   onSelect: (varRef: string) => void;
   onClose: () => void;
 }
 
-export function SemanticPalettePicker({ currentValue, onSelect, onClose }: SemanticPalettePickerProps) {
+export function SemanticPalettePicker({
+  currentValue,
+  otherSelectedValues,
+  onSelect,
+  onClose,
+}: SemanticPalettePickerProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -104,17 +119,28 @@ export function SemanticPalettePicker({ currentValue, onSelect, onClose }: Seman
           <div className="flex gap-0.5">
             {palette.shades.map((bgClass) => {
               const varRef = toVarRef(bgClass);
+              const selection = getSelection(varRef, currentValue, otherSelectedValues);
               return (
                 <button
                   key={bgClass}
                   onClick={() => onSelect(varRef)}
                   title={bgClass.slice(3)}
-                  className={`border-border/40 h-5 w-5 rounded-sm border transition-transform hover:scale-125 ${bgClass}`}
-                  style={{
-                    outline: currentValue === varRef ? '2px solid var(--foreground)' : undefined,
-                    outlineOffset: currentValue === varRef ? '1px' : undefined,
-                  }}
-                />
+                  className={cn(
+                    'border-border/40 flex h-5 w-5 items-center justify-center rounded-sm border transition-transform hover:scale-125',
+                    bgClass,
+                  )}
+                >
+                  {selection && (
+                    <span
+                      className={cn(
+                        'flex items-center justify-center rounded-full bg-black/50',
+                        selection === 'current' ? 'h-4 w-4' : 'h-3 w-3',
+                      )}
+                    >
+                      <i className={cn('ti ti-check text-white', selection === 'current' ? 'text-xs' : 'text-[8px]')} />
+                    </span>
+                  )}
+                </button>
               );
             })}
           </div>
@@ -125,19 +151,29 @@ export function SemanticPalettePicker({ currentValue, onSelect, onClose }: Seman
       <div className="flex items-center gap-2">
         <span className="text-foreground-muted w-20 shrink-0 text-[10px] font-medium">B / W</span>
         <div className="flex gap-0.5">
-          {BW.map((entry) => (
-            <button
-              key={entry.label}
-              onClick={() => onSelect(entry.value)}
-              title={entry.label}
-              className="border-border/40 h-5 w-5 rounded-sm border transition-transform hover:scale-125"
-              style={{
-                backgroundColor: entry.value,
-                outline: currentValue === entry.value ? '2px solid var(--foreground)' : undefined,
-                outlineOffset: currentValue === entry.value ? '1px' : undefined,
-              }}
-            />
-          ))}
+          {BW.map((entry) => {
+            const selection = getSelection(entry.value, currentValue, otherSelectedValues);
+            return (
+              <button
+                key={entry.label}
+                onClick={() => onSelect(entry.value)}
+                title={entry.label}
+                className="border-border/40 flex h-5 w-5 items-center justify-center rounded-sm border transition-transform hover:scale-125"
+                style={{ backgroundColor: entry.value }}
+              >
+                {selection && (
+                  <span
+                    className={cn(
+                      'flex items-center justify-center rounded-full bg-black/50',
+                      selection === 'current' ? 'h-4 w-4' : 'h-3 w-3',
+                    )}
+                  >
+                    <i className={cn('ti ti-check text-white', selection === 'current' ? 'text-xs' : 'text-[8px]')} />
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

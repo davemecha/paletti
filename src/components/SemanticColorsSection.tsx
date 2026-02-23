@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ColorSwatch } from './ColorSwatch';
 import { SemanticPalettePicker } from './SemanticPalettePicker';
 
@@ -37,23 +37,28 @@ const BG_CLASS: Record<SemanticKey, string> = {
   border: 'bg-border',
 };
 
-function getCssVar(name: string): string {
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-}
-
 function setCssVar(name: string, value: string): void {
   document.documentElement.style.setProperty(name, value);
 }
 
-function readMappings(): Record<string, string> {
-  const m: Record<string, string> = {};
-  for (const mode of ['light', 'dark'] as const) {
-    for (const key of SEMANTIC_KEYS) {
-      m[`${mode}-${key}`] = getCssVar(`--${mode}-${key}`);
-    }
-  }
-  return m;
-}
+const DEFAULT_MAPPINGS: Record<string, string> = {
+  'light-background': 'var(--color-gray-100)',
+  'light-background-subtle': 'var(--color-gray-200)',
+  'light-foreground': 'var(--color-gray-900)',
+  'light-foreground-muted': 'var(--color-gray-800)',
+  'light-primary': 'var(--color-primary-700)',
+  'light-secondary': 'var(--color-secondary-900)',
+  'light-accent': 'var(--color-accent-600)',
+  'light-border': 'var(--color-gray-400)',
+  'dark-background': 'var(--color-gray-950)',
+  'dark-background-subtle': 'var(--color-gray-900)',
+  'dark-foreground': 'var(--color-gray-50)',
+  'dark-foreground-muted': 'var(--color-gray-200)',
+  'dark-primary': 'var(--color-primary-200)',
+  'dark-secondary': 'var(--color-secondary-400)',
+  'dark-accent': 'var(--color-accent-200)',
+  'dark-border': 'var(--color-gray-500)',
+};
 
 interface ActivePicker {
   mode: 'light' | 'dark';
@@ -75,6 +80,18 @@ function SemanticGrid({
   onSelect: (mode: 'light' | 'dark', key: SemanticKey, value: string) => void;
   onClose: () => void;
 }) {
+  const otherSelectedValues = useMemo(() => {
+    if (!activePicker || activePicker.mode !== mode) return new Set<string>();
+    const s = new Set<string>();
+    for (const k of SEMANTIC_KEYS) {
+      if (k !== activePicker.key) {
+        const v = mappings[`${mode}-${k}`];
+        if (v) s.add(v);
+      }
+    }
+    return s;
+  }, [activePicker, mode, mappings]);
+
   return (
     <div className={`${mode} bg-background-subtle text-foreground mb-8 rounded-xl p-6`}>
       <h4 className="mb-4">{mode === 'light' ? 'Light' : 'Dark'} Mode Colors</h4>
@@ -92,6 +109,7 @@ function SemanticGrid({
               {isOpen && (
                 <SemanticPalettePicker
                   currentValue={mappings[`${mode}-${key}`] ?? ''}
+                  otherSelectedValues={otherSelectedValues}
                   onSelect={(value) => onSelect(mode, key, value)}
                   onClose={onClose}
                 />
@@ -105,7 +123,7 @@ function SemanticGrid({
 }
 
 export function SemanticColorsSection() {
-  const [mappings, setMappings] = useState(readMappings);
+  const [mappings, setMappings] = useState(DEFAULT_MAPPINGS);
   const [activePicker, setActivePicker] = useState<ActivePicker | null>(null);
 
   const handleSwatchClick = useCallback((mode: 'light' | 'dark', key: SemanticKey) => {
